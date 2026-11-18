@@ -1,6 +1,7 @@
 import { HashRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Task01App from './tasks/task01/Task01App';
 import Task02App from './tasks/task02/Task02App';
+import Task03App from './tasks/task03/Task03App';
 
 export default function App() {
   return (
@@ -16,12 +17,14 @@ export default function App() {
       >
         <Link to="/task-01">Задание 1: Render vs DOM</Link>
         <Link to="/task-02">Задание 2: Render Side-Effect</Link>
+        <Link to="/task-03">Задание 3: useTransition</Link>
       </nav>
 
       <Routes>
-        <Route path="/" element={<Navigate to="/task-02" replace />} />
+        <Route path="/" element={<Navigate to="/task-03" replace />} />
         <Route path="/task-01" element={<Task01App />} />
         <Route path="/task-02" element={<Task02App />} />
+        <Route path="/task-03" element={<Task03App />} />
       </Routes>
     </HashRouter>
   );
