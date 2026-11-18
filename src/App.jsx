@@ -1,36 +1,28 @@
-import { useState } from "react"
-import coursesData from './data/courses.json'
-import { CourseBadge } from "./components/CourseBadge"
+import { HashRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import Task01App from './tasks/task01/Task01App';
+import Task02App from './tasks/task02/Task02App';
 
 export default function App() {
-  const [count, setcount] = useState(0)
-  const [courseIndex, setCourseIndex] = useState(0)
-  const [isMounted, setIsMounted] = useState(true)
-
-  const currentCourse = coursesData[courseIndex];
-
-  const handleNextCourse = () => {
-    setCourseIndex((prev) => (prev + 1) % coursesData.length)
-  };
-
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth:'540px'}}>
-      <h2>Различие Render и DOM</h2>
-      <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+    <HashRouter>
+      <nav
+        style={{
+          padding: '12px 24px',
+          borderBottom: '1px solid #ddd',
+          display: 'flex',
+          gap: '16px',
+          fontFamily: 'sans-serif',
+        }}
+      >
+        <Link to="/task-01">Задание 1: Render vs DOM</Link>
+        <Link to="/task-02">Задание 2: Render Side-Effect</Link>
+      </nav>
 
-        <button onClick={() => setcount((c) => c + 1)}>
-          Счётчик родителя: {count}
-        </button>
-
-        <button onClick={handleNextCourse}>
-          Сменить prop title
-        </button>
-
-        <button onClick={() => setIsMounted((m) => !m)}>
-          {isMounted ? 'Размонтировать ребёнка' : 'Смонтировать ребёнка'}
-        </button>
-      </div>
-      {isMounted && <CourseBadge title={currentCourse.title} />}
-    </div>
-  )
+      <Routes>
+        <Route path="/" element={<Navigate to="/task-02" replace />} />
+        <Route path="/task-01" element={<Task01App />} />
+        <Route path="/task-02" element={<Task02App />} />
+      </Routes>
+    </HashRouter>
+  );
 }

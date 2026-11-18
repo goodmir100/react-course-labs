@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react'; 
+import { useEffect, useRef } from 'react';
 
 export function CourseBadge({ title }) {
   const nodeRef = useRef(null);
@@ -20,29 +20,29 @@ export function CourseBadge({ title }) {
     });
 
     observer.observe(targetNode, {
-        childList: true,
-        characterData: true,
-        subtree: true,
-        attributes: true,
+      childList: true,
+      characterData: true,
+      subtree: true,
+      attributes: true,
     });
 
     return () => {
-        observer.disconnect();
-        console.log('[CLEANUP] Подписка MutationObserver очищена');
+      observer.disconnect();
+      console.log('[CLEANUP] Подписка MutationObserver очищена');
     };
   }, []);
 
   return (
     <div
-    ref={nodeRef}
-    style={{
+      ref={nodeRef}
+      style={{
         padding: '12px',
         border: '1px solid #888',
         borderRadius: '8px',
         marginTop: '16px',
-    }}
+      }}
     >
-        <strong>Курс:</strong> {title} - <span>Постоянный текст</span>
+      <strong>Курс:</strong> {title} — <span>Постоянный текст</span>
     </div>
-  )
+  );
 }
