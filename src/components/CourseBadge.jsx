@@ -42,7 +42,7 @@ export function CourseBadge({ title }) {
         marginTop: '16px',
     }}
     >
-        <strong>Курс:</strong> {title} - <span>Постоянный тест</span>
+        <strong>Курс:</strong> {title} - <span>Постоянный текст</span>
     </div>
   )
 }

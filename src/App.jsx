@@ -27,7 +27,7 @@ export default function App() {
         </button>
 
         <button onClick={() => setIsMounted((m) => !m)}>
-          С{isMounted ? 'Размонтировать ребёнка' : 'Смонтировать ребёнка'}
+          {isMounted ? 'Размонтировать ребёнка' : 'Смонтировать ребёнка'}
         </button>
       </div>
       {isMounted && <CourseBadge title={currentCourse.title} />}
