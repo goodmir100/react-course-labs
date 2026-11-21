@@ -6,6 +6,7 @@ import Task04App from './tasks/task04/Task04App';
 import Task05App from './tasks/task05/Task05App';
 import Task06App from './tasks/task06/Task06App';
 import Task07App from './tasks/task07/Task07App';
+import Task08App from './tasks/task08/Task08App';
 
 export default function App() {
   return (
@@ -27,10 +28,11 @@ export default function App() {
         <Link to="/task-05">Задание 5: Panel (Композиция)</Link>
         <Link to="/task-06">Задание 6: Controlled vs Uncontrolled</Link>
         <Link to="/task-07">Задание 7: Container vs View</Link>
+        <Link to="/task-08">Задание 8: Lifting State Up</Link>
       </nav>
 
       <Routes>
-        <Route path="/" element={<Navigate to="/task-07" replace />} />
+        <Route path="/" element={<Navigate to="/task-08" replace />} />
         <Route path="/task-01" element={<Task01App />} />
         <Route path="/task-02" element={<Task02App />} />
         <Route path="/task-03" element={<Task03App />} />
@@ -38,6 +40,7 @@ export default function App() {
         <Route path="/task-05" element={<Task05App />} />
         <Route path="/task-06" element={<Task06App />} />
         <Route path="/task-07" element={<Task07App />} />
+        <Route path="/task-08" element={<Task08App />} />
       </Routes>
     </HashRouter>
   );
