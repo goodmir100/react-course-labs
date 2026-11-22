@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import Task01App from './tasks/task01/Task01App';
 import Task02App from './tasks/task02/Task02App';
 import Task03App from './tasks/task03/Task03App';
@@ -10,35 +10,28 @@ import Task08App from './tasks/task08/Task08App';
 import Task09App from './tasks/task09/Task09App';
 import Task10App from './tasks/task10/Task10App';
 import Task11App from './tasks/task11/Task11App';
+import Task12App from './tasks/task12/Task12App';
 
 export default function App() {
   return (
     <HashRouter>
-      <nav
-        style={{
-          padding: '12px 24px',
-          borderBottom: '1px solid #ddd',
-          display: 'flex',
-          gap: '16px',
-          flexWrap: 'wrap',
-          fontFamily: 'sans-serif',
-        }}
-      >
-        <Link to="/task-01">Задание 1: Render vs DOM</Link>
-        <Link to="/task-02">Задание 2: Render Side-Effect</Link>
-        <Link to="/task-03">Задание 3: useTransition</Link>
-        <Link to="/task-04">Задание 4: useDeferredValue</Link>
-        <Link to="/task-05">Задание 5: Panel (Композиция)</Link>
-        <Link to="/task-06">Задание 6: Controlled vs Uncontrolled</Link>
-        <Link to="/task-07">Задание 7: Container vs View</Link>
-        <Link to="/task-08">Задание 8: Lifting State Up</Link>
-        <Link to="/task-09">Задание 9: useMemo</Link>
-        <Link to="/task-10">Задание 10: memo и useCallback</Link>
-        <Link to="/task-11">Задание 11: useFavorites</Link>
+      <nav className="course-nav">
+        <NavLink to="/task-01">01. Render vs DOM</NavLink>
+        <NavLink to="/task-02">02. Side-Effect</NavLink>
+        <NavLink to="/task-03">03. useTransition</NavLink>
+        <NavLink to="/task-04">04. useDeferredValue</NavLink>
+        <NavLink to="/task-05">05. Panel</NavLink>
+        <NavLink to="/task-06">06. Controlled</NavLink>
+        <NavLink to="/task-07">07. Container/View</NavLink>
+        <NavLink to="/task-08">08. Lifting State</NavLink>
+        <NavLink to="/task-09">09. useMemo</NavLink>
+        <NavLink to="/task-10">10. memo/useCallback</NavLink>
+        <NavLink to="/task-11">11. useFavorites</NavLink>
+        <NavLink to="/task-12">12. Итоговый каталог</NavLink>
       </nav>
 
       <Routes>
-        <Route path="/" element={<Navigate to="/task-11" replace />} />
+        <Route path="/" element={<Navigate to="/task-12" replace />} />
         <Route path="/task-01" element={<Task01App />} />
         <Route path="/task-02" element={<Task02App />} />
         <Route path="/task-03" element={<Task03App />} />
@@ -50,6 +43,7 @@ export default function App() {
         <Route path="/task-09" element={<Task09App />} />
         <Route path="/task-10" element={<Task10App />} />
         <Route path="/task-11" element={<Task11App />} />
+        <Route path="/task-12" element={<Task12App />} />
       </Routes>
     </HashRouter>
   );

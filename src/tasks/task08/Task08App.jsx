@@ -4,12 +4,10 @@ import { CourseListView } from '../task07/CourseListView';
 import { FilterBar } from './FilterBar';
 
 export default function Task08App() {
-  // Ближайший общий владелец состояния для панели фильтров и списка
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
 
-  // Одновременное применение поиска по title и фильтра по category
   const normalizedQuery = query.trim().toLowerCase();
   const filteredCourses = coursesData.filter((course) => {
     const matchesTitle = course.title.toLowerCase().includes(normalizedQuery);
@@ -17,7 +15,6 @@ export default function Task08App() {
     return matchesTitle && matchesCategory;
   });
 
-  // Производное значение без хранения второй копии в state
   const matchedCount = filteredCourses.length;
 
   const handleResetFilters = () => {
@@ -26,8 +23,11 @@ export default function Task08App() {
   };
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '680px' }}>
-      <h2>Задание 8: Согласование интерфейса через общего родителя</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 8: Согласование интерфейса через общего родителя</h2>
+        <p>Подъём состояния поиска и категории в общего владельца с вычислением производного счётчика</p>
+      </header>
 
       <FilterBar
         query={query}
@@ -39,8 +39,10 @@ export default function Task08App() {
         onReset={handleResetFilters}
       />
 
-      <div style={{ marginBottom: '12px', fontSize: '14px', color: '#4b5563' }}>
-        Выбранный курс: <strong>{selectedId ?? 'не выбран'}</strong>
+      <div className="meta-row" style={{ marginBottom: '12px' }}>
+        <span>
+          Выбранный курс: <strong>{selectedId ?? 'не выбран'}</strong>
+        </span>
       </div>
 
       <CourseListView
@@ -49,6 +51,6 @@ export default function Task08App() {
         emptyText="Совпадений не найдено. Измените запрос или сбросьте фильтры."
         onSelect={setSelectedId}
       />
-    </div>
+    </main>
   );
 }

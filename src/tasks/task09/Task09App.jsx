@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import coursesData from '../../data/courses.json';
 
-// Генерируем 2000 записей с уникальными id на базе courses.json (неизменяемый массив)
 const GENERATED_COURSES = Array.from({ length: 2000 }, (_, index) => {
   const base = coursesData[index % coursesData.length];
   return {
@@ -16,7 +15,6 @@ function sortCourses(items, sortBy, sortDir) {
   const startedAt = performance.now();
   const multiplier = sortDir === 'asc' ? 1 : -1;
 
-  // Копируем массив перед сортировкой, сохраняя исходный GENERATED_COURSES неизменным
   const sorted = [...items].sort((a, b) => {
     if (sortBy === 'seats') {
       return (a.seats - b.seats) * multiplier;
@@ -35,12 +33,10 @@ export default function Task09App() {
   const [sortDir, setSortDir] = useState('asc');
   const [useMemoMode, setUseMemoMode] = useState(true);
 
-  // Вариант с useMemo: пересчитывается только при изменении sortBy или sortDir
   const memoizedResult = useMemo(() => {
     return sortCourses(GENERATED_COURSES, sortBy, sortDir);
   }, [sortBy, sortDir]);
 
-  // Вариант без useMemo: выполняется на каждом render (включая клик по счётчику)
   const activeResult = useMemoMode
     ? memoizedResult
     : sortCourses(GENERATED_COURSES, sortBy, sortDir);
@@ -50,26 +46,19 @@ export default function Task09App() {
   };
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '680px' }}>
-      <h2>Задание 9: Проверка полезности useMemo (2000 записей)</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 9: Проверка полезности useMemo (2000 записей)</h2>
+        <p>Сравнение сортировки с кэшированием и без него при изменении несвязанного счётчика</p>
+      </header>
 
-      <div
-        style={{
-          border: '1px solid #d1d5db',
-          borderRadius: '8px',
-          padding: '16px',
-          marginBottom: '16px',
-          backgroundColor: '#f9fafb',
-          display: 'grid',
-          gap: '12px',
-        }}
-      >
+      <section className="ui-card" style={{ display: 'grid', gap: '12px' }}>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
           <button type="button" onClick={() => setUnrelatedCount((c) => c + 1)}>
             Несвязанный счётчик: {unrelatedCount}
           </button>
 
-          <label style={{ cursor: 'pointer' }}>
+          <label style={{ cursor: 'pointer', fontSize: '14px' }}>
             <input
               type="checkbox"
               checked={useMemoMode}
@@ -80,37 +69,38 @@ export default function Task09App() {
         </div>
 
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <label>
-            Поле:{' '}
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              <option value="seats">По количеству мест (seats)</option>
-              <option value="title">По названию (title)</option>
-            </select>
-          </label>
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="seats">По количеству мест (seats)</option>
+            <option value="title">По названию (title)</option>
+          </select>
 
-          <button type="button" onClick={toggleDirection}>
+          <button type="button" className="btn-primary" onClick={toggleDirection}>
             Направление: {sortDir === 'asc' ? 'По возрастанию (ASC)' : 'По убыванию (DESC)'}
           </button>
         </div>
 
-        <div style={{ fontSize: '14px', color: '#374151' }}>
-          Последний замер сортировки: <strong>{activeResult.elapsedMs} мс</strong>{' '}
-          <span>(откройте консоль F12, чтобы видеть, запускалась ли сортировка при рендере)</span>
+        <div className="meta-row">
+          <span>
+            Последний замер сортировки: <strong>{activeResult.elapsedMs} мс</strong>
+          </span>
+          <span>(проверяйте вызовы [SORT] в консоли F12)</span>
         </div>
+      </section>
+
+      <div className="meta-row" style={{ marginBottom: '10px' }}>
+        <span>Показаны первые 15 из {activeResult.sorted.length} отсортированных записей:</span>
       </div>
 
-      <p style={{ fontSize: '14px', color: '#4b5563' }}>
-        Показаны первые 15 из {activeResult.sorted.length} отсортированных записей:
-      </p>
-
-      <ul style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '12px 28px' }}>
+      <ul className="scroll-list" style={{ maxHeight: '420px' }}>
         {activeResult.sorted.slice(0, 15).map((course) => (
-          <li key={course.id} style={{ marginBottom: '4px' }}>
-            <strong>{course.title}</strong> — мест: {course.seats}{' '}
-            <small style={{ color: '#6b7280' }}>(id: {course.id})</small>
+          <li key={course.id}>
+            <span>
+              <strong>{course.title}</strong> <small style={{ color: 'var(--text-muted)' }}>({course.id})</small>
+            </span>
+            <span className="badge">Мест: {course.seats}</span>
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   );
 }

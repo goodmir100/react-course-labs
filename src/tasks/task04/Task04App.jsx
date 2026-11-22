@@ -15,7 +15,8 @@ function CourseCard({ item, query }) {
   }
   return (
     <li>
-      {item.title} — <small style={{ color: '#666' }}>{checksum}</small>
+      <span>{item.title}</span>
+      <code style={{ color: 'var(--text-muted)' }}>{checksum}</code>
     </li>
   );
 }
@@ -27,12 +28,14 @@ const Results = memo(function Results({ query }) {
 
   return (
     <div>
-      <p style={{ fontSize: '14px', color: '#333' }}>
-        Показаны результаты для запроса:{' '}
-        <strong>{query === '' ? '«все курсы» (пустой запрос)' : `«${query}»`}</strong>{' '}
-        (найдено: {filtered.length})
-      </p>
-      <ul style={{ maxHeight: '320px', overflowY: 'auto', border: '1px solid #ddd', padding: '12px 24px' }}>
+      <div className="meta-row">
+        <span>
+          Показаны результаты для запроса:{' '}
+          <strong>{query === '' ? '«все курсы» (пустой запрос)' : `«${query}»`}</strong>{' '}
+          (найдено: {filtered.length})
+        </span>
+      </div>
+      <ul className="scroll-list">
         {filtered.map((item) => (
           <CourseCard key={item.id} item={item} query={query} />
         ))}
@@ -47,33 +50,36 @@ export default function Task04App() {
   const isStale = text !== deferredQuery;
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '640px' }}>
-      <h2>Задание 4: Отложенное значение (useDeferredValue)</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 4: Отложенное значение (useDeferredValue)</h2>
+        <p>Индикация временного отставания результатов с сохранением границы React.memo</p>
+      </header>
 
-      <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '12px' }}>
-        <label>
-          Поиск:{' '}
+      <section className="ui-card">
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap' }}>
           <input
+            type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Введите запрос быстро..."
-            style={{ padding: '6px 10px', width: '240px' }}
+            style={{ flex: '1 1 240px' }}
           />
-        </label>
-        <button onClick={() => setText('')}>Очистить</button>
-      </div>
+          <button type="button" onClick={() => setText('')}>
+            Очистить
+          </button>
+        </div>
 
-      <div style={{ minHeight: '24px', marginBottom: '12px' }}>
         {isStale && (
-          <span style={{ color: '#d97706', fontWeight: 'bold' }}>
+          <div className="notice-warning" style={{ marginBottom: '12px' }}>
             Обновляем результаты (введено: «{text}», в списке пока: «{deferredQuery}»)...
-          </span>
+          </div>
         )}
-      </div>
 
-      <div style={{ opacity: isStale ? 0.65 : 1, transition: 'opacity 120ms ease' }}>
-        <Results query={deferredQuery} />
-      </div>
-    </div>
+        <div style={{ opacity: isStale ? 0.65 : 1, transition: 'opacity 120ms ease' }}>
+          <Results query={deferredQuery} />
+        </div>
+      </section>
+    </main>
   );
 }

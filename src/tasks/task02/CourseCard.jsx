@@ -8,27 +8,28 @@ export function CourseCard({ course, isSelected, onSelect }) {
   };
 
   return (
-    <div
-      style={{
-        padding: '12px',
-        border: isSelected ? '2px solid #2563eb' : '1px solid #ccc',
-        borderRadius: '8px',
-        marginBottom: '10px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <div>
-        <h3 style={{ margin: '0 0 4px 0' }}>{course.title}</h3>
-        <small style={{ color: '#555' }}>
-          Категория: {course.category} | Мест: {course.seats}
-        </small>
-      </div>
+    <article className={`ui-card ${isSelected ? 'ui-card--selected' : ''}`}>
+      <div className="ui-card-header" style={{ marginBottom: 0 }}>
+        <div>
+          <h3 className="ui-card-title" style={{ marginBottom: '6px' }}>
+            {course.title}
+          </h3>
+          <div className="meta-row">
+            <span className={`badge badge--${course.category}`}>{course.category}</span>
+            <span>
+              Мест: <strong>{course.seats}</strong>
+            </span>
+          </div>
+        </div>
 
-      <button onClick={handleSelectClick}>
-        {isSelected ? 'Выбрано' : 'Выбрать'}
-      </button>
-    </div>
+        <button
+          type="button"
+          className={isSelected ? 'btn-primary' : ''}
+          onClick={handleSelectClick}
+        >
+          {isSelected ? 'Выбрано' : 'Выбрать'}
+        </button>
+      </div>
+    </article>
   );
 }

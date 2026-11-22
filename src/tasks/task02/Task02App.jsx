@@ -7,17 +7,20 @@ export default function Task02App() {
   const [renderCount, setRenderCount] = useState(0);
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '560px' }}>
-      <h2>Задание 2: Действие пользователя в обработчике</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 2: Действие пользователя в обработчике</h2>
+        <p>Запись в localStorage выполняется строго в onClick, а не во время render</p>
+      </header>
 
-      <div style={{ marginBottom: '16px', display: 'flex', gap: '10px', alignItems: 'center' }}>
-        <button onClick={() => setRenderCount((c) => c + 1)}>
+      <section className="ui-card" style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <button type="button" onClick={() => setRenderCount((c) => c + 1)}>
           Вызвать повторный render ({renderCount})
         </button>
-        <span>
+        <span className="meta-row">
           Текущий выбор в state: <strong>{selectedId ?? 'не выбран'}</strong>
         </span>
-      </div>
+      </section>
 
       {coursesData.map((course) => (
         <CourseCard
@@ -27,6 +30,6 @@ export default function Task02App() {
           onSelect={setSelectedId}
         />
       ))}
-    </div>
+    </main>
   );
 }

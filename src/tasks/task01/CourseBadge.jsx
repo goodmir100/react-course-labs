@@ -33,16 +33,11 @@ export function CourseBadge({ title }) {
   }, []);
 
   return (
-    <div
-      ref={nodeRef}
-      style={{
-        padding: '12px',
-        border: '1px solid #888',
-        borderRadius: '8px',
-        marginTop: '16px',
-      }}
-    >
-      <strong>Курс:</strong> {title} — <span>Постоянный текст</span>
+    <div ref={nodeRef} className="ui-card ui-card--selected" style={{ marginTop: '16px' }}>
+      <div className="meta-row">
+        <strong>Курс:</strong> <span>{title}</span>
+        <span className="badge badge--quality">Постоянный текст</span>
+      </div>
     </div>
   );
 }

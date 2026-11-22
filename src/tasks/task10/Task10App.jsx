@@ -10,8 +10,6 @@ export default function Task10App() {
   const [useStableCallback, setUseStableCallback] = useState(true);
   const [useStableOptions, setUseStableOptions] = useState(true);
 
-  // 1. Стабильный callback через useCallback + функциональное обновление state
-  // Пустой массив зависимостей [] безопасен, так как используется prev => ...
   const stableSelect = useCallback((courseId) => {
     setSelectedIds((prev) =>
       prev.includes(courseId)
@@ -20,7 +18,6 @@ export default function Task10App() {
     );
   }, []);
 
-  // 2. Новая функция при каждом рендере родителя (также с функциональным обновлением)
   const inlineSelect = (courseId) => {
     setSelectedIds((prev) =>
       prev.includes(courseId)
@@ -29,7 +26,6 @@ export default function Task10App() {
     );
   };
 
-  // 3. Стабильная ссылка на объект options vs новый объект на каждом рендере
   const memoizedOptions = useMemo(() => ({ showSeats }), [showSeats]);
   const freshOptions = { showSeats };
 
@@ -37,26 +33,19 @@ export default function Task10App() {
   const activeOptions = useStableOptions ? memoizedOptions : freshOptions;
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '680px' }}>
-      <h2>Задание 10: Причины повторного вызова memo-компонента</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 10: Причины повторного вызова memo-компонента</h2>
+        <p>Влияние ссылочной стабильности функций (useCallback) и объектов (options) на React.memo</p>
+      </header>
 
-      <div
-        style={{
-          border: '1px solid #d1d5db',
-          borderRadius: '8px',
-          padding: '16px',
-          marginBottom: '16px',
-          backgroundColor: '#f9fafb',
-          display: 'grid',
-          gap: '10px',
-        }}
-      >
+      <section className="ui-card" style={{ display: 'grid', gap: '12px' }}>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
           <button type="button" onClick={() => setCount((c) => c + 1)}>
             Несвязанный счётчик родителя: {count}
           </button>
 
-          <label style={{ cursor: 'pointer' }}>
+          <label style={{ cursor: 'pointer', fontSize: '14px' }}>
             <input
               type="checkbox"
               checked={showSeats}
@@ -66,7 +55,7 @@ export default function Task10App() {
           </label>
         </div>
 
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', fontSize: '14px' }}>
+        <div className="meta-row">
           <label style={{ cursor: 'pointer' }}>
             <input
               type="checkbox"
@@ -85,16 +74,13 @@ export default function Task10App() {
             Стабильный объект <code>options</code> (<code>useMemo</code>)
           </label>
         </div>
+      </section>
 
-        <p style={{ margin: 0, fontSize: '13px', color: '#4b5563' }}>
-          Откройте консоль браузера (<code>F12</code>) и нажимайте «Несвязанный счётчик родителя»,
-          переключая галочки выше.
-        </p>
-      </div>
-
-      <div style={{ marginBottom: '12px', fontSize: '14px' }}>
-        Выбранные курсы ({selectedIds.length}):{' '}
-        <strong>{selectedIds.length > 0 ? selectedIds.join(', ') : 'нет'}</strong>
+      <div className="meta-row" style={{ marginBottom: '12px' }}>
+        <span>
+          Выбранные курсы ({selectedIds.length}):{' '}
+          <strong>{selectedIds.length > 0 ? selectedIds.join(', ') : 'нет'}</strong>
+        </span>
       </div>
 
       <CoursePicker
@@ -103,6 +89,6 @@ export default function Task10App() {
         options={activeOptions}
         onSelect={activeOnSelect}
       />
-    </div>
+    </main>
   );
 }

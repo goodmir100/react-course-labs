@@ -14,24 +14,29 @@ export default function Task01App() {
   };
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '540px' }}>
-      <h2>Задание 1: Различие Render и DOM</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 1: Различие Render и DOM</h2>
+        <p>Отслеживание фаз вычисления компонента и реальных мутаций DOM через MutationObserver</p>
+      </header>
 
-      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <button onClick={() => setCount((c) => c + 1)}>
-          Счётчик родителя: {count}
-        </button>
+      <section className="ui-card">
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <button type="button" onClick={() => setCount((c) => c + 1)}>
+            Счётчик родителя: {count}
+          </button>
 
-        <button onClick={handleNextCourse}>
-          Сменить prop title
-        </button>
+          <button type="button" className="btn-primary" onClick={handleNextCourse}>
+            Сменить prop title
+          </button>
 
-        <button onClick={() => setIsMounted((m) => !m)}>
-          {isMounted ? 'Размонтировать ребёнка' : 'Смонтировать ребёнка'}
-        </button>
-      </div>
+          <button type="button" onClick={() => setIsMounted((m) => !m)}>
+            {isMounted ? 'Размонтировать ребёнка' : 'Смонтировать ребёнка'}
+          </button>
+        </div>
 
-      {isMounted && <CourseBadge title={currentCourse.title} />}
-    </div>
+        {isMounted && <CourseBadge title={currentCourse.title} />}
+      </section>
+    </main>
   );
 }

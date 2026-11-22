@@ -12,10 +12,7 @@ function filterCourses(query) {
 }
 
 export default function Task06App() {
-  // 1. Состояние для управляемого фильтра (владелец — React)
   const [controlledQuery, setControlledQuery] = useState('');
-
-  // 2. Ссылка на DOM-элемент и состояние применённого запроса для неуправляемого фильтра (владелец — DOM)
   const uncontrolledInputRef = useRef(null);
   const [uncontrolledApplied, setUncontrolledApplied] = useState('');
 
@@ -30,7 +27,6 @@ export default function Task06App() {
   };
 
   const handleUncontrolledReset = () => {
-    // Явный сброс DOM-значения напрямую через ref + сброс применённого фильтра
     if (uncontrolledInputRef.current) {
       uncontrolledInputRef.current.value = '';
     }
@@ -41,19 +37,17 @@ export default function Task06App() {
   const uncontrolledList = filterCourses(uncontrolledApplied);
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '820px' }}>
-      <h2>Задание 6: Управляемый и неуправляемый фильтр</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 6: Управляемый и неуправляемый фильтр</h2>
+        <p>Сравнение владения значением через React state (value/onChange) и через DOM (defaultValue + ref)</p>
+      </header>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '16px',
-        }}
-      >
-        {/* Вариант 1: Управляемый input (value / onChange) */}
-        <section style={{ border: '1px solid #d1d5db', borderRadius: '8px', padding: '16px' }}>
-          <h3 style={{ marginTop: 0 }}>1. Управляемый фильтр (value / onChange)</h3>
+      <div className="compare-grid">
+        <section className="ui-card">
+          <h3 className="ui-card-title" style={{ marginBottom: '12px' }}>
+            1. Управляемый фильтр (value / onChange)
+          </h3>
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input
@@ -61,61 +55,65 @@ export default function Task06App() {
               value={controlledQuery}
               onChange={(e) => setControlledQuery(e.target.value)}
               placeholder="Поиск сразу при вводе..."
-              style={{ flex: 1, padding: '6px 10px' }}
+              style={{ flex: 1 }}
             />
             <button type="button" onClick={handleControlledReset}>
               Сбросить
             </button>
           </div>
 
-          <p style={{ fontSize: '13px', color: '#4b5563' }}>
-            Владелец значения: <strong>React state</strong> (<code>"{controlledQuery}"</code>)
+          <p className="meta-row" style={{ marginBottom: '12px' }}>
+            Владелец: <strong>React state</strong> (<code>"{controlledQuery}"</code>)
           </p>
 
-          <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
+          <ul className="clean-list">
             {controlledList.map((course) => (
-              <li key={course.id}>
-                {course.title} <small>({course.category})</small>
+              <li key={course.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
+                <span>{course.title}</span>
+                <span className={`badge badge--${course.category}`}>{course.category}</span>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* Вариант 2: Неуправляемый input (defaultValue / ref) */}
-        <section style={{ border: '1px solid #d1d5db', borderRadius: '8px', padding: '16px' }}>
-          <h3 style={{ marginTop: 0 }}>2. Неуправляемый фильтр (defaultValue + ref)</h3>
+        <section className="ui-card">
+          <h3 className="ui-card-title" style={{ marginBottom: '12px' }}>
+            2. Неуправляемый фильтр (defaultValue + ref)
+          </h3>
 
           <form
             onSubmit={handleUncontrolledApply}
-            style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}
+            style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}
           >
             <input
               ref={uncontrolledInputRef}
               type="text"
               defaultValue=""
-              placeholder="Введите и нажмите Применить..."
-              style={{ flex: 1, padding: '6px 10px' }}
+              placeholder="Введите и примените..."
+              style={{ flex: '1 1 140px' }}
             />
-            <button type="submit">Применить</button>
+            <button type="submit" className="btn-primary">
+              Применить
+            </button>
             <button type="button" onClick={handleUncontrolledReset}>
               Сбросить
             </button>
           </form>
 
-          <p style={{ fontSize: '13px', color: '#4b5563' }}>
-            Владелец поля: <strong>DOM</strong> | Применено по кнопке:{' '}
-            <code>"{uncontrolledApplied}"</code>
+          <p className="meta-row" style={{ marginBottom: '12px' }}>
+            Владелец: <strong>DOM</strong> | Применено: <code>"{uncontrolledApplied}"</code>
           </p>
 
-          <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
+          <ul className="clean-list">
             {uncontrolledList.map((course) => (
-              <li key={course.id}>
-                {course.title} <small>({course.category})</small>
+              <li key={course.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
+                <span>{course.title}</span>
+                <span className={`badge badge--${course.category}`}>{course.category}</span>
               </li>
             ))}
           </ul>
         </section>
       </div>
-    </div>
+    </main>
   );
 }

@@ -3,12 +3,14 @@ import { useFavorites } from './useFavorites';
 import { FavoritesPanel } from './FavoritesPanel';
 
 export default function Task11App() {
-  // Один экземпляр хука у ближайшего общего владельца
   const { ids, toggle, clear } = useFavorites();
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '680px' }}>
-      <h2>Задание 11: Пользовательский хук useFavorites</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 11: Пользовательский хук useFavorites</h2>
+        <p>Инкапсуляция логики списка избранного без привязки к разметке и синхронизация через общего владельца</p>
+      </header>
 
       <FavoritesPanel
         courses={coursesData}
@@ -17,44 +19,48 @@ export default function Task11App() {
         onClear={clear}
       />
 
-      <section>
-        <h3 style={{ marginBottom: '10px', fontSize: '16px' }}>Каталог курсов</h3>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '10px' }}>
+      <section style={{ marginTop: '20px' }}>
+        <h3 style={{ marginBottom: '12px', fontSize: '16px', color: 'var(--text-secondary)' }}>
+          Каталог курсов
+        </h3>
+        <ul className="clean-list">
           {coursesData.map((course) => {
             const isFavorite = ids.includes(course.id);
 
             return (
               <li
                 key={course.id}
-                style={{
-                  padding: '12px 16px',
-                  border: isFavorite ? '2px solid #2563eb' : '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  backgroundColor: isFavorite ? '#eff6ff' : '#fff',
-                }}
+                className={`ui-card ${isFavorite ? 'ui-card--selected' : ''}`}
+                style={{ marginBottom: 0 }}
               >
-                <div>
-                  <strong style={{ display: 'block', marginBottom: '4px' }}>{course.title}</strong>
-                  <small style={{ color: '#4b5563' }}>
-                    ID: <code>{course.id}</code> · Направление: {course.category} · Мест: {course.seats}
-                  </small>
-                </div>
+                <div className="ui-card-header" style={{ marginBottom: 0 }}>
+                  <div>
+                    <strong style={{ display: 'block', marginBottom: '6px' }}>{course.title}</strong>
+                    <div className="meta-row">
+                      <span className={`badge badge--${course.category}`}>{course.category}</span>
+                      <span>
+                        ID: <code>{course.id}</code>
+                      </span>
+                      <span>
+                        Мест: <strong>{course.seats}</strong>
+                      </span>
+                    </div>
+                  </div>
 
-                <button
-                  type="button"
-                  onClick={() => toggle(course.id)}
-                  aria-pressed={isFavorite}
-                >
-                  {isFavorite ? 'Убрать из избранного' : 'В избранное'}
-                </button>
+                  <button
+                    type="button"
+                    className={isFavorite ? 'btn-active' : ''}
+                    onClick={() => toggle(course.id)}
+                    aria-pressed={isFavorite}
+                  >
+                    {isFavorite ? '★ В избранном' : '☆ В избранное'}
+                  </button>
+                </div>
               </li>
             );
           })}
         </ul>
       </section>
-    </div>
+    </main>
   );
 }

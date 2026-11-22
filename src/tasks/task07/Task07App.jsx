@@ -16,25 +16,27 @@ export default function Task07App() {
     : coursesData;
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '720px' }}>
-      <h2>Задание 7: Контейнер каталога и представление</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 7: Контейнер каталога и представление</h2>
+        <p>Отделение состояния и фильтрации от чистого компонента отображения CourseListView</p>
+      </header>
 
-      {/* 1. Управляемый контейнер с фильтрацией и выбором */}
       <section style={{ marginBottom: '28px' }}>
-        <h3 style={{ marginBottom: '8px' }}>1. Контейнер каталога (поиск + выбор)</h3>
+        <h3 style={{ marginBottom: '10px', fontSize: '16px' }}>1. Контейнер каталога (поиск + выбор)</h3>
 
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap' }}>
+        <div className="ui-card" style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Фильтр по названию или категории..."
-            style={{ flex: 1, minWidth: '220px', padding: '6px 10px' }}
+            style={{ flex: '1 1 220px' }}
           />
           <button type="button" onClick={() => setQuery('')}>
             Сбросить поиск
           </button>
-          <span style={{ fontSize: '14px' }}>
+          <span className="meta-row">
             Выбранный ID: <strong>{selectedId ?? 'не выбран'}</strong>
           </span>
         </div>
@@ -47,11 +49,8 @@ export default function Task07App() {
         />
       </section>
 
-      <hr style={{ border: 0, borderTop: '1px solid #e5e7eb', margin: '24px 0' }} />
-
-      {/* 2. Изолированное представление: полный список */}
       <section style={{ marginBottom: '28px' }}>
-        <h3 style={{ marginBottom: '8px' }}>2. Представление с полным списком (без фильтрации)</h3>
+        <h3 style={{ marginBottom: '10px', fontSize: '16px' }}>2. Представление с полным списком</h3>
         <CourseListView
           items={coursesData}
           selectedId={selectedId}
@@ -60,15 +59,14 @@ export default function Task07App() {
         />
       </section>
 
-      {/* 3. Изолированное представление: пустой массив */}
       <section>
-        <h3 style={{ marginBottom: '8px' }}>3. Представление с пустым массивом (items=&#123;[]&#125;)</h3>
+        <h3 style={{ marginBottom: '10px', fontSize: '16px' }}>3. Представление с пустым массивом (items=&#123;[]&#125;)</h3>
         <CourseListView
           items={[]}
           emptyText="В этом разделе пока нет доступных курсов"
           onSelect={(id) => setSelectedId(id)}
         />
       </section>
-    </div>
+    </main>
   );
 }

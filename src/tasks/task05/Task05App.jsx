@@ -22,10 +22,12 @@ export default function Task05App() {
   const hasActiveFilter = category !== 'all';
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: '24px', maxWidth: '640px' }}>
-      <h2>Задание 5: Композиция UI через универсальный Panel</h2>
+    <main className="catalog-page">
+      <header className="catalog-header">
+        <h2>Задание 5: Композиция UI через универсальный Panel</h2>
+        <p>Один переиспользуемый контейнер для фильтра и карточек без пропсов-модификаторов</p>
+      </header>
 
-      {/* Сценарий 1: Блок фильтрации на базе Panel */}
       <Panel
         title={
           useLongTitles
@@ -40,27 +42,21 @@ export default function Task05App() {
           ) : null
         }
       >
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
           {['all', 'frontend', 'fullstack', 'quality'].map((cat) => (
             <button
               key={cat}
               type="button"
+              className={category === cat ? 'btn-active' : ''}
               onClick={() => setCategory(cat)}
               aria-pressed={category === cat}
-              style={{
-                fontWeight: category === cat ? 'bold' : 'normal',
-                border: category === cat ? '2px solid #2563eb' : '1px solid #9ca3af',
-                borderRadius: '4px',
-                padding: '4px 10px',
-                cursor: 'pointer',
-              }}
             >
               {cat === 'all' ? 'Все' : cat}
             </button>
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', fontSize: '14px' }}>
+        <div className="meta-row">
           <label style={{ cursor: 'pointer' }}>
             <input
               type="checkbox"
@@ -80,7 +76,6 @@ export default function Task05App() {
         </div>
       </Panel>
 
-      {/* Сценарий 2: Карточки курсов на базе того же Panel */}
       {visibleCourses.map((course) => {
         const isEnrolled = enrolledIds.includes(course.id);
         const displayTitle = useLongTitles
@@ -95,6 +90,7 @@ export default function Task05App() {
               hideCardActions ? null : (
                 <button
                   type="button"
+                  className={isEnrolled ? 'btn-primary' : ''}
                   disabled={course.seats === 0 && !isEnrolled}
                   onClick={() => toggleEnroll(course.id)}
                 >
@@ -107,13 +103,16 @@ export default function Task05App() {
               )
             }
           >
-            <p style={{ margin: 0, fontSize: '14px', color: '#4b5563' }}>
-              Направление: <strong>{course.category}</strong> · Свободных мест:{' '}
-              <strong>{course.seats}</strong> · Версия: v{course.version}
-            </p>
+            <div className="meta-row">
+              <span className={`badge badge--${course.category}`}>{course.category}</span>
+              <span>
+                Свободных мест: <strong>{course.seats}</strong>
+              </span>
+              <span>Версия: v{course.version}</span>
+            </div>
           </Panel>
         );
       })}
-    </div>
+    </main>
   );
 }
